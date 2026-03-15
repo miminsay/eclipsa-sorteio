@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
 margin:0;
 height:100vh;
@@ -17,60 +16,54 @@ justify-content:center;
 background: radial-gradient(circle,#1b0033,#000);
 font-family:Arial;
 color:white;
+overflow:hidden;
 }
 
 h1{
+font-size:40px;
+letter-spacing:3px;
 margin-bottom:40px;
 text-shadow:0 0 15px #ff00ff;
 }
 
 .roleta{
-width:320px;
-height:320px;
-border-radius:50%;
-border:8px solid white;
-background:
-conic-gradient(
-#ff4d4d 0deg 60deg,
-#ff944d 60deg 120deg,
-#ffd24d 120deg 180deg,
-#4dff88 180deg 240deg,
-#4da6ff 240deg 300deg,
-#c44dff 300deg 360deg
-);
-display:flex;
-align-items:center;
-justify-content:center;
-transition: transform 5s ease-out;
+font-size:180px;
+cursor:pointer;
+transition: transform 4s cubic-bezier(.17,.67,.13,.99);
+filter: drop-shadow(0 0 20px #ff00ff);
 }
 
-.texto{
-position:absolute;
-width:320px;
-height:320px;
-display:flex;
-align-items:center;
-justify-content:center;
-pointer-events:none;
+.roleta.girando{
+animation:giro 4s ease-out forwards;
 }
 
-.texto span{
-position:absolute;
-font-size:14px;
-font-weight:bold;
+@keyframes giro{
+0%{transform:rotate(0deg) scale(1);}
+50%{transform:rotate(720deg) scale(1.2);}
+100%{transform:rotate(1440deg) scale(1);}
 }
 
 button{
-margin-top:40px;
+margin-top:60px;
+font-size:20px;
 padding:15px 40px;
-font-size:18px;
 border:none;
-border-radius:30px;
-background:#ff00cc;
+border-radius:40px;
+background:linear-gradient(45deg,#ff00cc,#6a00ff);
 color:white;
 cursor:pointer;
+box-shadow:0 0 20px #ff00ff;
 }
 
+button:hover{
+transform:scale(1.1);
+}
+
+#resultado{
+margin-top:25px;
+font-size:24px;
+text-shadow:0 0 10px #ff00ff;
+}
 </style>
 </head>
 
@@ -78,18 +71,11 @@ cursor:pointer;
 
 <h1>ECLIPSA SORTEIO</h1>
 
-<div id="roleta" class="roleta"></div>
+<div id="roleta" class="roleta">🎰</div>
 
-<div class="texto">
-<span style="transform:rotate(30deg) translate(120px) rotate(-30deg)">Fantasia</span>
-<span style="transform:rotate(90deg) translate(120px) rotate(-90deg)">Bolo</span>
-<span style="transform:rotate(150deg) translate(120px) rotate(-150deg)">Nostalgia</span>
-<span style="transform:rotate(210deg) translate(120px) rotate(-210deg)">Livro</span>
-<span style="transform:rotate(270deg) translate(120px) rotate(-270deg)">Filme</span>
-<span style="transform:rotate(330deg) translate(120px) rotate(-330deg)">Pintura</span>
-</div>
+<button onclick="girar()">GIRAR ROLETA</button>
 
-<button onclick="girar()">GIRAR</button>
+<p id="resultado"></p>
 
 <audio id="som">
 <source src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3">
@@ -97,19 +83,35 @@ cursor:pointer;
 
 <script>
 
-let rotacao = 0
+let categorias = [
+"Fantasia",
+"Bolo",
+"Nostalgia",
+"Livro",
+"Filme",
+"Pintura"
+]
 
 function girar(){
 
 let roleta = document.getElementById("roleta")
 let som = document.getElementById("som")
+let resultado = document.getElementById("resultado")
 
-rotacao += Math.floor(Math.random()*2000)+2000
+let sorteio = categorias[Math.floor(Math.random()*categorias.length)]
 
-roleta.style.transform = "rotate("+rotacao+"deg)"
+roleta.classList.remove("girando")
+
+void roleta.offsetWidth
+
+roleta.classList.add("girando")
 
 som.currentTime = 0
 som.play()
+
+setTimeout(()=>{
+resultado.innerText = "🎉 Você tirou: " + sorteio
+},4000)
 
 }
 
