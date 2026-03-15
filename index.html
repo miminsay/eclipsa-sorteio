@@ -1,140 +1,93 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
 <meta charset="UTF-8">
 <title>Eclipsa Sorteio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
 margin:0;
-font-family:Arial;
 height:100vh;
 display:flex;
 flex-direction:column;
-justify-content:center;
 align-items:center;
+justify-content:center;
+background: radial-gradient(circle,#1b0033,#000);
+font-family:Arial;
 color:white;
-background:radial-gradient(circle,#300000,#000);
 overflow:hidden;
 }
 
-/* título */
-
 h1{
-font-size:60px;
+font-size:40px;
+letter-spacing:3px;
 margin-bottom:40px;
-
-background:linear-gradient(90deg,#ffd700,#ff0000,#ffd700);
-background-size:200%;
-
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-
-animation:shine 4s linear infinite;
+text-shadow:0 0 15px #ff00ff;
 }
-
-@keyframes shine{
-0%{background-position:0%}
-100%{background-position:200%}
-}
-
-/* roleta */
 
 .roleta{
 font-size:180px;
-transition:transform 4s cubic-bezier(.17,.67,.83,.67);
-animation:luz 2s infinite alternate;
+cursor:pointer;
+transition: transform 4s cubic-bezier(.17,.67,.13,.99);
+filter: drop-shadow(0 0 20px #ff00ff);
 }
 
-@keyframes luz{
-from{filter:drop-shadow(0 0 10px gold)}
-to{filter:drop-shadow(0 0 35px red)}
+.roleta.girando{
+animation:giro 4s ease-out forwards;
 }
 
-/* botão */
+@keyframes giro{
+0%{transform:rotate(0deg) scale(1);}
+50%{transform:rotate(720deg) scale(1.2);}
+100%{transform:rotate(1440deg) scale(1);}
+}
 
 button{
-margin-top:90px;
-padding:18px 50px;
-font-size:22px;
-background:#c10000;
-color:white;
+margin-top:60px;
+font-size:20px;
+padding:15px 40px;
 border:none;
-border-radius:12px;
+border-radius:40px;
+background:linear-gradient(45deg,#ff00cc,#6a00ff);
+color:white;
 cursor:pointer;
-box-shadow:0 0 20px red;
+box-shadow:0 0 20px #ff00ff;
 }
 
 button:hover{
-background:#ff0000;
+transform:scale(1.1);
 }
-
-/* resultado */
-
-#resultado{
-margin-top:30px;
-font-size:28px;
-font-weight:bold;
-}
-
 </style>
 </head>
 
 <body>
 
-<h1>Eclipsa Sorteio</h1>
+<h1>ECLIPSA SORTEIO</h1>
 
-<div class="roleta" id="roleta">🎰</div>
+<div id="roleta" class="roleta">🎰</div>
 
-<button onclick="girar()">Rodar a Roleta</button>
+<button onclick="girar()">GIRAR ROLETA</button>
 
-<p id="resultado"></p>
-
-<!-- som ambiente -->
-<audio autoplay loop>
-<source src="https://cdn.pixabay.com/audio/2023/03/16/audio_1b3d9fcbab.mp3">
-</audio>
-
-<!-- som giro -->
-<audio id="spin">
-<source src="https://cdn.pixabay.com/audio/2022/03/10/audio_c4c4c1cdb3.mp3">
+<audio id="som">
+<source src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3">
 </audio>
 
 <script>
 
-let roleta=document.getElementById("roleta")
-let som=document.getElementById("spin")
-
-let temas=[
-"Fantasia",
-"Bolo",
-"Nostalgia",
-"Livros",
-"Filmes",
-"Pinturas"
-]
-
-let angulo=0
-
 function girar(){
 
-som.currentTime=0
+let roleta = document.getElementById("roleta")
+let som = document.getElementById("som")
+
+roleta.classList.remove("girando")
+
+void roleta.offsetWidth
+
+roleta.classList.add("girando")
+
+som.currentTime = 0
 som.play()
-
-let giro=Math.floor(Math.random()*360)+2000
-
-angulo+=giro
-
-roleta.style.transform="rotate("+angulo+"deg)"
-
-setTimeout(()=>{
-
-let tema=temas[Math.floor(Math.random()*temas.length)]
-
-document.getElementById("resultado").innerText="Tema sorteado: "+tema
-
-},4000)
 
 }
 
